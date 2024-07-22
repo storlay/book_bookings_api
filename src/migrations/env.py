@@ -9,6 +9,7 @@ from src.db.database import Base, DATABASE_URL
 
 # Models
 from src.models.books import Books  # noqa
+from src.models.genres import Genres  # noqa
 from src.models.users import Users  # noqa
 
 config = context.config

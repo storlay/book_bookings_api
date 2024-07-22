@@ -19,3 +19,4 @@ class Books(Base):
     )
 
     author: Mapped["Users"] = relationship("Users", back_populates="books")
+    genres: Mapped["Genres"] = relationship("Genres", back_populates="books")
