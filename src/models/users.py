@@ -1,4 +1,8 @@
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import (
+    Mapped,
+    mapped_column,
+    relationship,
+)
 
 from src.db.database import Base
 
@@ -10,3 +14,5 @@ class Users(Base):
     first_name: Mapped[str] = mapped_column(nullable=False)
     last_name: Mapped[str] = mapped_column(nullable=False)
     avatar_path: Mapped[str]
+
+    books: Mapped["Books"] = relationship("Books", back_populates="author")
