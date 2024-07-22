@@ -7,6 +7,9 @@ from alembic import context
 
 from src.db.database import Base, DATABASE_URL
 
+# Models
+from src.models.users import Users  # noqa
+
 config = context.config
 config.set_main_option(
     "sqlalchemy.url", f"{DATABASE_URL}?async_fallback=True"
