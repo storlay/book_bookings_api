@@ -1,0 +1,10 @@
+services:
+  api:
+    build:
+      context: ../
+    container_name: catalog_api
+    env_file:
+      - ../.env
+    command: ./infra/commands/api.sh
+    ports:
+      - "8000:8000"
