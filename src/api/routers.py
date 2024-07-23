@@ -1,5 +1,7 @@
-from src.api.users import router as user_router
+from src.api.genres import router as genres_router
+from src.api.users import router as users_router
 
 routers = (
-    user_router,
+    users_router,
+    genres_router,
 )

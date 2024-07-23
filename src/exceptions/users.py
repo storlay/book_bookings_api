@@ -1,17 +1,6 @@
-from fastapi import HTTPException, status
+from fastapi import status
 
-
-class CatalogException(HTTPException):
-    status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
-    detail = "Internal server error"
-
-    def __init__(
-            self
-    ):
-        super().__init__(
-            status_code=self.status_code,
-            detail=self.detail
-        )
+from src.utils.exception import CatalogException
 
 
 class AvatarFileWasNotFoundException(CatalogException):
