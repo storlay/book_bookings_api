@@ -8,6 +8,8 @@ from src.db.database import Base
 
 from datetime import datetime
 
+from src.schemas.bookings import BookingSchema
+
 
 class Bookings(Base):
     __tablename__ = "bookings"
@@ -18,3 +20,11 @@ class Bookings(Base):
     user_id: Mapped[int] = mapped_column(
         ForeignKey("users.id"), nullable=False
     )
+
+    def to_read_model(self) -> BookingSchema:
+        return BookingSchema(
+            id=self.id,
+            date_from=self.date_from,
+            date_to=self.date_to,
+            user_id=self.user_id
+        )

@@ -46,9 +46,10 @@ class BaseRepository:
             .filter_by(**filter_by)
         )
         result = await self.session.execute(statement)
-        return result.scalar_one()
+        return result.scalar_one().to_read_model()
 
     async def find_all(self):
         statement = select(self.model)
         result = await self.session.execute(statement)
-        return result.mappings().all()
+        result = [row[0].to_read_model() for row in result.all()]
+        return result

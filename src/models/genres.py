@@ -5,6 +5,7 @@ from sqlalchemy.orm import (
 )
 
 from src.db.database import Base
+from src.schemas.genres import GenreSchema
 
 
 class Genres(Base):
@@ -14,3 +15,9 @@ class Genres(Base):
     name: Mapped[str] = mapped_column(nullable=False)
 
     books: Mapped["Books"] = relationship("Books", back_populates="genres")
+
+    def to_read_model(self) -> GenreSchema:
+        return GenreSchema(
+            id=self.id,
+            name=self.name
+        )
