@@ -29,7 +29,7 @@ class Books(Base):
         return BookSchema(
             id=self.id,
             name=self.name,
-            price=self.name,
+            price=self.price,
             author_id=self.author_id,
             genre_id=self.genre_id
         )
