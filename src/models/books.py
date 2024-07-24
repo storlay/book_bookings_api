@@ -6,6 +6,7 @@ from sqlalchemy.orm import (
 )
 
 from src.db.database import Base
+from src.models.books_genres import books_genres
 from src.schemas.books import BookSchema
 
 
@@ -18,12 +19,13 @@ class Books(Base):
     author_id: Mapped[int] = mapped_column(
         ForeignKey("users.id", ondelete="CASCADE")
     )
-    genre_id: Mapped[int] = mapped_column(
-        ForeignKey("genres.id", ondelete="SET NULL")
-    )
 
     author: Mapped["Users"] = relationship("Users", back_populates="books")
-    genres: Mapped["Genres"] = relationship("Genres", back_populates="books")
+    genres: Mapped[list["Genres"]] = relationship(
+        back_populates="books",
+        secondary=books_genres,
+        lazy="selectin"
+    )
 
     def to_read_model(self) -> BookSchema:
         return BookSchema(
@@ -31,5 +33,5 @@ class Books(Base):
             name=self.name,
             price=self.price,
             author_id=self.author_id,
-            genre_id=self.genre_id
+            genres=[genre.name for genre in self.genres]
         )

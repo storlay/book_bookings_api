@@ -8,6 +8,7 @@ from alembic import context
 from src.db.database import Base, DATABASE_URL
 
 # Models
+from src.models.books_genres import books_genres  # noqa
 from src.models.bookings import Bookings  # noqa
 from src.models.books import Books  # noqa
 from src.models.genres import Genres  # noqa

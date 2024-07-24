@@ -8,6 +8,6 @@ class BookWasNotFoundException(CatalogException):
     detail = "The book was not found"
 
 
-class IncorrectAuthorOrGenreException(CatalogException):
+class IncorrectAuthorException(CatalogException):
     status_code = status.HTTP_400_BAD_REQUEST
-    detail = "Wrong author or genre"
+    detail = "Wrong author id"

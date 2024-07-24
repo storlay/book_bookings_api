@@ -1,6 +1,8 @@
+from typing import Optional
+
 from src.api.dependencies import TransactionDep
 
-from fastapi import APIRouter, status
+from fastapi import APIRouter, status, Query
 
 from src.schemas.books import BookSchema, AddBookSchema, BookIdSchema, UpdateBookSchema
 from src.services.books import BooksService
@@ -26,7 +28,7 @@ async def get_book(
 
 
 @router.get(
-    "",
+    "/all",
     status_code=status.HTTP_200_OK
 )
 async def get_all_books(
@@ -43,11 +45,13 @@ async def get_all_books(
 )
 async def add_book(
         transaction: TransactionDep,
-        book_data: AddBookSchema
+        book_data: AddBookSchema,
+        genres: list[str] = Query()
 ) -> BookIdSchema:
     return await BooksService.add_book(
         transaction,
-        book_data
+        book_data,
+        genres
     )
 
 
@@ -58,12 +62,14 @@ async def add_book(
 async def update_book(
         transaction: TransactionDep,
         book_id: int,
-        book_data: UpdateBookSchema
+        book_data: UpdateBookSchema,
+        genres: list[str] = Query()
 ) -> BookIdSchema:
     return await BooksService.update_book(
         transaction,
         book_id,
-        book_data
+        book_data,
+        genres
     )
 
 
@@ -78,4 +84,26 @@ async def delete_book(
     return await BooksService.delete_book(
         transaction,
         book_id
+    )
+
+
+@router.get(
+    "",
+    status_code=status.HTTP_200_OK
+)
+async def get_books_by_filters(
+        transaction: TransactionDep,
+        author_name: Optional[str] = None,
+        author_surname: Optional[str] = None,
+        genres: list[str] = Query(None),
+        min_price: Optional[float] = Query(None, ge=0),
+        max_price: Optional[float] = Query(None, ge=0)
+) -> list[BookSchema]:
+    return await BooksService.get_books_by_filters(
+        transaction,
+        author_name,
+        author_surname,
+        genres,
+        min_price,
+        max_price
     )
