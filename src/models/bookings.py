@@ -29,6 +29,7 @@ class Bookings(Base):
     def to_read_model(self) -> BookingSchema:
         return BookingSchema(
             id=self.id,
+            book_id=self.book_id,
             date_from=self.date_from,
             date_to=self.date_to,
             user_id=self.user_id
