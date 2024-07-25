@@ -1,13 +1,13 @@
 from fastapi import (
     APIRouter,
-    status,
     UploadFile,
+    status,
 )
 
 from src.api.dependencies import TransactionDep
 from src.schemas.users import (
-    UserInitialsSchema,
     UserIdSchema,
+    UserInitialsSchema,
     UserSchema,
 )
 from src.services.users import UsersService

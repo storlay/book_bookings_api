@@ -1,10 +1,14 @@
 from typing import Optional
 
+from fastapi import APIRouter, Query, status
+
 from src.api.dependencies import TransactionDep
-
-from fastapi import APIRouter, status, Query
-
-from src.schemas.books import BookSchema, AddBookSchema, BookIdSchema, UpdateBookSchema
+from src.schemas.books import (
+    AddBookSchema,
+    BookIdSchema,
+    BookSchema,
+    UpdateBookSchema,
+)
 from src.services.books import BooksService
 
 router = APIRouter(

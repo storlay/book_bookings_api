@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import (
     Mapped,
@@ -5,9 +7,6 @@ from sqlalchemy.orm import (
 )
 
 from src.db.database import Base
-
-from datetime import datetime
-
 from src.schemas.bookings import BookingSchema
 
 

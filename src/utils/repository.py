@@ -1,8 +1,8 @@
 from sqlalchemy import (
+    delete,
     insert,
     select,
     update,
-    delete,
 )
 from sqlalchemy.ext.asyncio import AsyncSession
 

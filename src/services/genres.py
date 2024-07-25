@@ -9,8 +9,8 @@ from src.exceptions.genres import (
 )
 from src.schemas.genres import (
     AddGenreSchema,
-    GenreSchema,
     GenreIdSchema,
+    GenreSchema,
 )
 from src.utils.transaction import BaseManager
 

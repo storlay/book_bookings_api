@@ -1,10 +1,21 @@
 from typing import Optional
 
-from src.exceptions.books import BookWasNotFoundException, IncorrectAuthorException
-from src.schemas.books import BookSchema, AddBookSchema, BookIdSchema, UpdateBookSchema
-from src.utils.transaction import BaseManager
+from sqlalchemy.exc import (
+    IntegrityError,
+    NoResultFound,
+)
 
-from sqlalchemy.exc import NoResultFound, IntegrityError
+from src.exceptions.books import (
+    BookWasNotFoundException,
+    IncorrectAuthorException,
+)
+from src.schemas.books import (
+    AddBookSchema,
+    BookIdSchema,
+    BookSchema,
+    UpdateBookSchema,
+)
+from src.utils.transaction import BaseManager
 
 
 class BooksService:

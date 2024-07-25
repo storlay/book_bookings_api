@@ -1,8 +1,12 @@
 from fastapi import APIRouter, status
 
 from src.api.dependencies import TransactionDep
+from src.schemas.bookings import (
+    AddOrUpdateBookingSchema,
+    BookingIdSchema,
+    BookingSchema,
+)
 from src.services.bookings import BookingsService
-from src.schemas.bookings import AddOrUpdateBookingSchema, BookingIdSchema, BookingSchema
 
 router = APIRouter(
     prefix="/bookings",

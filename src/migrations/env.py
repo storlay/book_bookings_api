@@ -1,16 +1,14 @@
 from logging.config import fileConfig
 
-from sqlalchemy import engine_from_config
-from sqlalchemy import pool
-
 from alembic import context
+from sqlalchemy import engine_from_config, pool
 
-from src.db.database import Base, DATABASE_URL
+from src.db.database import DATABASE_URL, Base
 
 # Models
-from src.models.books_genres import books_genres  # noqa
 from src.models.bookings import Bookings  # noqa
 from src.models.books import Books  # noqa
+from src.models.books_genres import books_genres  # noqa
 from src.models.genres import Genres  # noqa
 from src.models.users import Users  # noqa
 

@@ -1,6 +1,11 @@
 from datetime import date
 
-from sqlalchemy import select, and_, or_, delete
+from sqlalchemy import (
+    and_,
+    delete,
+    or_,
+    select,
+)
 
 from src.models.bookings import Bookings
 from src.utils.repository import BaseRepository
@@ -46,7 +51,7 @@ class BookingsRepository(BaseRepository):
             current_date: date
     ) -> None:
         query = (
-            delete(Bookings)
-            .filter(Bookings.date_to <= current_date)
+            delete(self.model)
+            .filter(self.model.date_to <= current_date)
         )
         await self.session.execute(query)

@@ -1,5 +1,10 @@
-from sqlalchemy import select, and_, insert, update
-from sqlalchemy.orm import joinedload, selectinload
+from sqlalchemy import (
+    and_,
+    insert,
+    select,
+    update,
+)
+from sqlalchemy.orm import selectinload
 
 from src.models.books import Books
 from src.models.genres import Genres

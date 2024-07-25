@@ -1,12 +1,12 @@
 from fastapi import APIRouter, status
 
 from src.api.dependencies import TransactionDep
-from src.services.genres import GenresService
 from src.schemas.genres import (
     AddGenreSchema,
-    GenreSchema,
     GenreIdSchema,
+    GenreSchema,
 )
+from src.services.genres import GenresService
 
 router = APIRouter(
     prefix="/genres",

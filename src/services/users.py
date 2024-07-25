@@ -4,17 +4,16 @@ from fastapi import UploadFile
 from sqlalchemy.exc import NoResultFound
 
 from src.exceptions.users import (
-    AvatarFileWasNotFoundException,
     AvatarFileIsNotLoadedException,
+    AvatarFileWasNotFoundException,
     UserWasNotFoundException,
 )
 from src.schemas.users import (
-    UserInitialsSchema,
     UserIdSchema,
+    UserInitialsSchema,
     UserSchema,
 )
 from src.utils.constants import USER_AVATAR_PATH
-
 from src.utils.transaction import BaseManager
 
 
