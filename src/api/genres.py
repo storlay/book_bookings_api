@@ -5,6 +5,7 @@ from src.schemas.genres import (
     AddGenreSchema,
     GenreIdSchema,
     GenreSchema,
+    UpdateGenreSchema,
 )
 from src.services.genres import GenresService
 
@@ -21,6 +22,11 @@ router = APIRouter(
 async def get_all_genres(
     transaction: TransactionDep,
 ) -> list[GenreSchema]:
+    """
+    Getting all genres.
+    :param transaction: Database transaction.
+    :return: List of Pydantic models representing the genre.
+    """
     return await GenresService.get_all_genres(
         transaction,
     )
@@ -34,6 +40,12 @@ async def get_genre(
     transaction: TransactionDep,
     genre_id: int,
 ) -> GenreSchema:
+    """
+    Getting a genre by ID.
+    :param transaction: Database transaction.
+    :param genre_id: Genre ID.
+    :return: Pydantic model representing the genre.
+    """
     return await GenresService.get_genre(
         transaction,
         genre_id,
@@ -48,6 +60,12 @@ async def add_genre(
     transaction: TransactionDep,
     genre_data: AddGenreSchema,
 ) -> GenreIdSchema:
+    """
+    Adding a new genre.
+    :param transaction: Database transaction.
+    :param genre_data: Pydantic model representing genre data.
+    :return: Pydantic model representing the created genre ID.
+    """
     return await GenresService.add_genre(
         transaction,
         genre_data,
@@ -61,12 +79,19 @@ async def add_genre(
 async def update_genre(
     transaction: TransactionDep,
     genre_id: int,
-    new_name: str,
+    genre_data: UpdateGenreSchema,
 ) -> GenreIdSchema:
+    """
+    Updating a genre by ID.
+    :param transaction: Database transaction.
+    :param genre_id: Genre ID.
+    :param genre_data: Pydantic model representing genre data.
+    :return: Pydantic model representing the updated genre ID.
+    """
     return await GenresService.update_genre(
         transaction,
         genre_id,
-        new_name,
+        genre_data,
     )
 
 
@@ -78,6 +103,12 @@ async def delete_genre(
     transaction: TransactionDep,
     genre_id: int,
 ) -> None:
+    """
+    Deleting a genre by ID.
+    :param transaction: Database transaction.
+    :param genre_id: Genre ID.
+    :return: None.
+    """
     return await GenresService.delete_genre(
         transaction,
         genre_id,
