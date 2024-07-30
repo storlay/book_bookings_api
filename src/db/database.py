@@ -1,10 +1,14 @@
 import os
+import re
 
 from sqlalchemy.ext.asyncio import (
     async_sessionmaker,
     create_async_engine,
 )
-from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy.orm import (
+    DeclarativeBase,
+    declared_attr,
+)
 
 DB_USER = os.getenv("POSTGRES_USER")
 DB_PASS = os.getenv("POSTGRES_PASSWORD")
@@ -15,8 +19,19 @@ DB_PORT = os.getenv("DB_PORT")
 DATABASE_URL = f"postgresql+asyncpg://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
 engine = create_async_engine(DATABASE_URL)
-async_session_maker = async_sessionmaker(engine, expire_on_commit=False)
+async_session_maker = async_sessionmaker(
+    engine,
+    expire_on_commit=False,
+)
 
 
 class Base(DeclarativeBase):
-    pass
+    @declared_attr.directive
+    @classmethod
+    def __tablename__(cls) -> str:
+        name = re.sub(
+            r"(?<!^)(?=[A-Z])",
+            "_",
+            cls.__name__,
+        ).lower()
+        return name

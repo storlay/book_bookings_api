@@ -5,24 +5,21 @@ from sqlalchemy.orm import (
 )
 
 from src.db.database import Base
-from src.models.books_genres import books_genres
 from src.schemas.genres import GenreSchema
 
 
 class Genres(Base):
-    __tablename__ = "genres"
-
     id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] = mapped_column(nullable=False, unique=True)
+    name: Mapped[str] = mapped_column(unique=True)
 
     books: Mapped[list["Books"]] = relationship(
+        secondary="books_genres",
         back_populates="genres",
-        secondary=books_genres,
-        lazy="joined"
+        lazy="selectin",
     )
 
     def to_read_model(self) -> GenreSchema:
         return GenreSchema(
             id=self.id,
-            name=self.name
+            name=self.name,
         )

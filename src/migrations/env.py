@@ -1,20 +1,20 @@
 from logging.config import fileConfig
 
 from alembic import context
-from sqlalchemy import engine_from_config, pool
+from sqlalchemy import (
+    engine_from_config,
+    pool,
+)
 
-from src.db.database import DATABASE_URL, Base
-
-# Models
-from src.models.bookings import Bookings  # noqa
-from src.models.books import Books  # noqa
-from src.models.books_genres import books_genres  # noqa
-from src.models.genres import Genres  # noqa
-from src.models.users import Users  # noqa
+from src.db.database import (
+    Base,
+    DATABASE_URL,
+)
 
 config = context.config
 config.set_main_option(
-    "sqlalchemy.url", f"{DATABASE_URL}?async_fallback=True"
+    "sqlalchemy.url",
+    f"{DATABASE_URL}?async_fallback=True",
 )
 
 if config.config_file_name is not None:
@@ -62,7 +62,8 @@ def run_migrations_online() -> None:
 
     with connectable.connect() as connection:
         context.configure(
-            connection=connection, target_metadata=target_metadata
+            connection=connection,
+            target_metadata=target_metadata,
         )
 
         with context.begin_transaction():
