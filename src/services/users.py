@@ -20,13 +20,19 @@ from src.utils.transaction import BaseManager
 class UsersService:
     @staticmethod
     async def get_user(
-            transaction: BaseManager,
-            user_id: int
+        transaction: BaseManager,
+        user_id: int,
     ) -> UserSchema:
+        """
+        The logic of getting a user by ID.
+        :param transaction: Database transaction.
+        :param user_id: User ID.
+        :return: Pydantic model representing the user.
+        """
         try:
             async with transaction:
                 user = await transaction.users_repo.find_one(
-                    id=user_id
+                    id=user_id,
                 )
                 return user
         except NoResultFound:
@@ -34,7 +40,7 @@ class UsersService:
 
     @staticmethod
     async def get_all_users(
-            transaction: BaseManager
+        transaction: BaseManager,
     ) -> list[UserSchema]:
         async with transaction:
             users = await transaction.users_repo.find_all()
@@ -42,29 +48,42 @@ class UsersService:
 
     @staticmethod
     async def add_user(
-            transaction: BaseManager,
-            user_data: UserInitialsSchema
+        transaction: BaseManager,
+        user_data: UserInitialsSchema,
     ) -> UserIdSchema:
+        """
+        The logic of creating a user.
+        :param transaction: Database transaction.
+        :param user_data: Pydantic model representing user data.
+        :return: Pydantic model representing the created user ID.
+        """
         user_dict = user_data.model_dump()
         async with transaction:
             user_id = await transaction.users_repo.add_one(
-                user_dict
+                user_dict,
             )
             await transaction.commit()
             return UserIdSchema(user_id=user_id)
 
     @staticmethod
     async def update_user(
-            transaction: BaseManager,
-            user_id: int,
-            fields: UserInitialsSchema
+        transaction: BaseManager,
+        user_id: int,
+        fields: UserInitialsSchema,
     ) -> UserIdSchema:
+        """
+        The logic of updating a user initials by ID.
+        :param transaction: Database transaction.
+        :param user_id: User ID.
+        :param fields: Pydantic model representing fields.
+        :return: Pydantic model representing the updated user ID.
+        """
         fields_dict = fields.model_dump()
         try:
             async with transaction:
                 user_id = await transaction.users_repo.edit_one(
                     obj_id=user_id,
-                    data=fields_dict
+                    data=fields_dict,
                 )
                 await transaction.commit()
                 return UserIdSchema(user_id=user_id)
@@ -73,18 +92,24 @@ class UsersService:
 
     @staticmethod
     async def delete_user(
-            transaction: BaseManager,
-            user_id: int
+        transaction: BaseManager,
+        user_id: int,
     ) -> None:
+        """
+        The logic of deleting a user by ID.
+        :param transaction: Database transaction.
+        :param user_id: User ID.
+        :return: None.
+        """
         try:
             async with transaction:
                 user = await transaction.users_repo.find_one(
-                    id=user_id
+                    id=user_id,
                 )
                 if user.avatar_path:
                     os.remove(user.avatar_path)
                 await transaction.users_repo.delete_one(
-                    user_id
+                    user_id,
                 )
                 await transaction.commit()
         except NoResultFound:
@@ -92,13 +117,22 @@ class UsersService:
 
     @staticmethod
     async def upload_avatar(
-            transaction: BaseManager,
-            user_id: int,
-            user_avatar: UploadFile
+        transaction: BaseManager,
+        user_id: int,
+        user_avatar: UploadFile,
     ) -> UserIdSchema:
+        """
+        The logic of uploading the user's avatar.
+        :param transaction: Database transaction.
+        :param user_id: User ID.
+        :param user_avatar: User avatar.
+        :return: Pydantic model representing the updated user ID.
+        """
         try:
             async with transaction:
-                await transaction.users_repo.find_one(id=user_id)
+                await transaction.users_repo.find_one(
+                    id=user_id,
+                )
         except NoResultFound:
             raise NoResultFound
 
@@ -110,20 +144,26 @@ class UsersService:
             async with transaction:
                 user_id = await transaction.users_repo.edit_one(
                     obj_id=user_id,
-                    data={"avatar_path": avatar_path}
+                    data={"avatar_path": avatar_path},
                 )
                 await transaction.commit()
                 return UserIdSchema(user_id=user_id)
 
     @staticmethod
     async def delete_avatar(
-            transaction: BaseManager,
-            user_id: int
+        transaction: BaseManager,
+        user_id: int,
     ) -> None:
+        """
+        The logic of deleting a user's avatar.
+        :param transaction: Database transaction.
+        :param user_id: User ID.
+        :return: None.
+        """
         try:
             async with transaction:
                 user = await transaction.users_repo.find_one(
-                    id=user_id
+                    id=user_id,
                 )
                 if user.avatar_path:
 
@@ -134,7 +174,7 @@ class UsersService:
 
                     await transaction.users_repo.edit_one(
                         obj_id=user_id,
-                        data={"avatar_path": None}
+                        data={"avatar_path": None},
                     )
                     await transaction.commit()
                 else:

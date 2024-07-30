@@ -20,7 +20,16 @@ class BookingsRepository(BaseRepository):
             date_from: date,
             date_to: date
     ) -> bool | int:
-        query = (
+        """
+        Checking the availability
+        of the book on the requested dates
+        :param book_id: Book ID.
+        :param date_from: Booking start date.
+        :param date_to: Booking end date.
+        :return: User ID if the book is busy
+                 and None if not.
+        """
+        statement = (
             select(self.model.user_id)
             .filter(
                 and_(
@@ -42,7 +51,7 @@ class BookingsRepository(BaseRepository):
                 )
             )
         )
-        is_booked = await self.session.execute(query)
+        is_booked = await self.session.execute(statement)
         bookings = is_booked.scalar_one_or_none()
         return bookings
 
@@ -50,6 +59,12 @@ class BookingsRepository(BaseRepository):
             self,
             current_date: date
     ) -> None:
+        """
+        Deleting bookings
+        with an expired end date
+        :param current_date: Current date
+        :return: None.
+        """
         query = (
             delete(self.model)
             .filter(self.model.date_to <= current_date)

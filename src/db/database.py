@@ -29,6 +29,11 @@ class Base(DeclarativeBase):
     @declared_attr.directive
     @classmethod
     def __tablename__(cls) -> str:
+        """
+        Converting a class name (CamelCase)
+        to a table name (snake_case).
+        :return: Table Name.
+        """
         name = re.sub(
             r"(?<!^)(?=[A-Z])",
             "_",
