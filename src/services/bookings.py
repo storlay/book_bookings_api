@@ -7,9 +7,10 @@ from src.exceptions.bookings import (
     InvalidUserOrBookDataException,
 )
 from src.schemas.bookings import (
-    AddOrUpdateBookingSchema,
+    AddBookingSchema,
     BookingIdSchema,
     BookingSchema,
+    UpdateBookingSchema,
 )
 from src.utils.transaction import BaseManager
 
@@ -41,7 +42,7 @@ class BookingsService:
     async def add_booking(
             cls,
             transaction: BaseManager,
-            booking_data: AddOrUpdateBookingSchema
+            booking_data: AddBookingSchema,
     ) -> BookingIdSchema:
         async with transaction:
             is_booked = await cls.validate_booking_data(
@@ -62,7 +63,7 @@ class BookingsService:
             cls,
             transaction: BaseManager,
             booking_id: int,
-            booking_data: AddOrUpdateBookingSchema
+            booking_data: UpdateBookingSchema,
     ) -> BookingIdSchema:
         async with transaction:
             is_booked = await cls.validate_booking_data(
@@ -101,7 +102,7 @@ class BookingsService:
     @staticmethod
     async def validate_booking_data(
             transaction: BaseManager,
-            booking_data: AddOrUpdateBookingSchema
+            booking_data: AddBookingSchema | UpdateBookingSchema,
     ) -> int | bool:
         if booking_data.date_from > booking_data.date_to:
             raise DateFromCannotBeAfterDateToException

@@ -97,7 +97,8 @@ class UsersService:
             user_avatar: UploadFile
     ) -> UserIdSchema:
         try:
-            await transaction.users_repo.find_one(id=user_id)
+            async with transaction:
+                await transaction.users_repo.find_one(id=user_id)
         except NoResultFound:
             raise NoResultFound
 

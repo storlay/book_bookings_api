@@ -11,6 +11,7 @@ from src.schemas.genres import (
     AddGenreSchema,
     GenreIdSchema,
     GenreSchema,
+    UpdateGenreSchema,
 )
 from src.utils.transaction import BaseManager
 
@@ -58,13 +59,13 @@ class GenresService:
     async def update_genre(
             transaction: BaseManager,
             genre_id: int,
-            new_name: str
+            genre_data: UpdateGenreSchema,
     ) -> GenreIdSchema:
         try:
             async with transaction:
                 await transaction.genres_repo.edit_one(
                     obj_id=genre_id,
-                    data={"name": new_name}
+                    data={"name": genre_data.name}
                 )
                 await transaction.commit()
                 return GenreIdSchema(genre_id=genre_id)

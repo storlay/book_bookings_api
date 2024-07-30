@@ -1,22 +1,31 @@
-from datetime import date
-
 from pydantic import BaseModel
 
-
-class BookingSchema(BaseModel):
-    id: int
-    book_id: int
-    user_id: int
-    date_from: date
-    date_to: date
+from src.schemas.mixins.bookings import (
+    DateMixin,
+    RelationMixin,
+)
 
 
 class BookingIdSchema(BaseModel):
     booking_id: int
 
 
-class AddOrUpdateBookingSchema(BaseModel):
-    book_id: int
-    user_id: int
-    date_from: date
-    date_to: date
+class BookingSchema(
+    DateMixin,
+    RelationMixin,
+):
+    id: int
+
+
+class AddBookingSchema(
+    DateMixin,
+    RelationMixin,
+):
+    pass
+
+
+class UpdateBookingSchema(
+    DateMixin,
+    RelationMixin,
+):
+    pass

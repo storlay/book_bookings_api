@@ -1,19 +1,16 @@
-from typing import Optional
-
 from pydantic import BaseModel
 
+from src.schemas.mixins.users import InitialsMixin
 
-class UserSchema(BaseModel):
+
+class UserSchema(InitialsMixin):
     id: int
-    first_name: str
-    last_name: str
-    avatar_path: Optional[str]
+    avatar_path: str | None
 
 
 class UserIdSchema(BaseModel):
     user_id: int
 
 
-class UserInitialsSchema(BaseModel):
-    first_name: str
-    last_name: str
+class UserInitialsSchema(InitialsMixin):
+    pass

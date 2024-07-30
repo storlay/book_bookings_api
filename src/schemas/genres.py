@@ -1,13 +1,18 @@
 from pydantic import BaseModel
 
+from src.schemas.mixins.genres import NameMixin
 
-class GenreSchema(BaseModel):
+
+class GenreSchema(NameMixin):
     id: int
-    name: str
 
 
-class AddGenreSchema(BaseModel):
-    name: str
+class AddGenreSchema(NameMixin):
+    pass
+
+
+class UpdateGenreSchema(NameMixin):
+    pass
 
 
 class GenreIdSchema(BaseModel):
