@@ -4,12 +4,12 @@ from src.utils.exception import CatalogException
 
 
 class BookingWasNotFoundException(CatalogException):
-    status_code = status.HTTP_400_BAD_REQUEST
+    status_code = status.HTTP_404_NOT_FOUND
     detail = "The booking was not found"
 
 
 class BookIsBookedException(CatalogException):
-    status_code = status.HTTP_400_BAD_REQUEST
+    status_code = status.HTTP_409_CONFLICT
     detail = "The book has already been booked for the selected dates"
 
 

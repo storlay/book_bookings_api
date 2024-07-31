@@ -13,5 +13,5 @@ class AvatarFileIsNotLoadedException(CatalogException):
 
 
 class UserWasNotFoundException(CatalogException):
-    status_code = status.HTTP_400_BAD_REQUEST
+    status_code = status.HTTP_404_NOT_FOUND
     detail = "The user was not found"
