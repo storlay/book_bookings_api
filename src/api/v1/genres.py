@@ -30,6 +30,8 @@ router = APIRouter(
 @router.get(
     "/all",
     status_code=status.HTTP_200_OK,
+    summary="Get all genres.",
+    description="Get all genres with pagination.",
 )
 async def get_all_genres(
     transaction: TransactionDep,
@@ -54,6 +56,8 @@ async def get_all_genres(
 @router.get(
     "/{genre_id}",
     status_code=status.HTTP_200_OK,
+    summary="Get genre by ID",
+    description="Get genre by ID",
 )
 async def get_genre(
     transaction: TransactionDep,
@@ -74,6 +78,8 @@ async def get_genre(
 @router.post(
     "",
     status_code=status.HTTP_201_CREATED,
+    summary="Add one genre",
+    description="Add one genre.",
 )
 async def add_genre(
     transaction: TransactionDep,
@@ -94,6 +100,8 @@ async def add_genre(
 @router.put(
     "/{genre_id}",
     status_code=status.HTTP_200_OK,
+    summary="Update genre by ID",
+    description="Update genre by ID.",
 )
 async def update_genre(
     transaction: TransactionDep,
@@ -117,6 +125,8 @@ async def update_genre(
 @router.delete(
     "/{genre_id}",
     status_code=status.HTTP_204_NO_CONTENT,
+    summary="Delete genre by ID",
+    description="Delete genre by ID.",
 )
 async def delete_genre(
     transaction: TransactionDep,

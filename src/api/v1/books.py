@@ -32,6 +32,8 @@ router = APIRouter(
 @router.get(
     "/all",
     status_code=status.HTTP_200_OK,
+    summary="Get all books",
+    description="Get all books with pagination.",
 )
 async def get_all_books(
     transaction: TransactionDep,
@@ -56,6 +58,8 @@ async def get_all_books(
 @router.get(
     "/filters",
     status_code=status.HTTP_200_OK,
+    summary="Get books by filters",
+    description="Get books by filters with pagination.",
 )
 async def get_books_by_filters(
     transaction: TransactionDep,
@@ -86,6 +90,8 @@ async def get_books_by_filters(
 @router.get(
     "/{book_id}",
     status_code=status.HTTP_200_OK,
+    summary="Get book by ID",
+    description="Get book by ID.",
 )
 async def get_book(
     transaction: TransactionDep,
@@ -106,6 +112,8 @@ async def get_book(
 @router.post(
     "",
     status_code=status.HTTP_201_CREATED,
+    summary="Add one book",
+    description="Add one book.",
 )
 async def add_book(
     transaction: TransactionDep,
@@ -129,6 +137,8 @@ async def add_book(
 @router.put(
     "/{book_id}",
     status_code=status.HTTP_200_OK,
+    summary="Update book by ID",
+    description="Update book by ID.",
 )
 async def update_book(
     transaction: TransactionDep,
@@ -155,6 +165,8 @@ async def update_book(
 @router.delete(
     "/{book_id}",
     status_code=status.HTTP_200_OK,
+    summary="Delete book by ID",
+    description="Delete book by ID.",
 )
 async def delete_book(
     transaction: TransactionDep,

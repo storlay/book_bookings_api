@@ -30,6 +30,8 @@ router = APIRouter(
 @router.get(
     "/all",
     status_code=status.HTTP_200_OK,
+    summary="Get all users",
+    description="Get all users with pagination.",
 )
 async def get_all_users(
     transaction: TransactionDep,
@@ -54,6 +56,8 @@ async def get_all_users(
 @router.get(
     "/{user_id}",
     status_code=status.HTTP_200_OK,
+    summary="Get user by ID",
+    description="Get user by ID.",
 )
 async def get_user(
     transaction: TransactionDep,
@@ -74,6 +78,8 @@ async def get_user(
 @router.post(
     "",
     status_code=status.HTTP_201_CREATED,
+    summary="Add one user",
+    description="Add one user.",
 )
 async def add_user(
     transaction: TransactionDep,
@@ -94,6 +100,8 @@ async def add_user(
 @router.patch(
     "/{user_id}",
     status_code=status.HTTP_200_OK,
+    summary="Update user initials",
+    description="Update user initials (first name, last name).",
 )
 async def update_user_initials(
     transaction: TransactionDep,
@@ -117,6 +125,8 @@ async def update_user_initials(
 @router.delete(
     "/{user_id}",
     status_code=status.HTTP_204_NO_CONTENT,
+    summary="Delete user by ID",
+    description="Delete user by ID.",
 )
 async def delete_user(
     transaction: TransactionDep,
@@ -137,6 +147,9 @@ async def delete_user(
 @router.patch(
     "/{user_id}/avatar",
     status_code=status.HTTP_200_OK,
+    summary="Update user avatar",
+    description="Update user avatar by user ID.",
+
 )
 async def upload_avatar(
     transaction: TransactionDep,
@@ -160,6 +173,8 @@ async def upload_avatar(
 @router.delete(
     "/{user_id}/avatar",
     status_code=status.HTTP_204_NO_CONTENT,
+    summary="Delete user avatar",
+    description="Delete user avatar by user ID.",
 )
 async def delete_avatar(
     transaction: TransactionDep,

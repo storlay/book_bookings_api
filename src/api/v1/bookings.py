@@ -30,6 +30,8 @@ router = APIRouter(
 @router.get(
     "/all",
     status_code=status.HTTP_200_OK,
+    summary="Get all bookings",
+    description="Get all bookings with pagination.",
 )
 async def get_all_bookings(
     transaction: TransactionDep,
@@ -54,6 +56,8 @@ async def get_all_bookings(
 @router.get(
     "/{booking_id}",
     status_code=status.HTTP_200_OK,
+    summary="Get booking by ID",
+    description="Get booking by ID.",
 )
 async def get_booking(
     transaction: TransactionDep,
@@ -74,6 +78,8 @@ async def get_booking(
 @router.post(
     "",
     status_code=status.HTTP_201_CREATED,
+    summary="Add one booking",
+    description="Add one booking."
 )
 async def add_booking(
     transaction: TransactionDep,
@@ -94,6 +100,8 @@ async def add_booking(
 @router.put(
     "/{booking_id}",
     status_code=status.HTTP_200_OK,
+    summary="Update booking by ID",
+    description="Update booking by ID.",
 )
 async def update_booking(
     transaction: TransactionDep,
@@ -117,6 +125,8 @@ async def update_booking(
 @router.delete(
     "/{booking_id}",
     status_code=status.HTTP_204_NO_CONTENT,
+    summary="Delete booking by ID",
+    description="Delete booking by ID."
 )
 async def delete_booking(
     transaction: TransactionDep,
