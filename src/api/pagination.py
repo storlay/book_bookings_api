@@ -2,11 +2,7 @@ from typing import (
     Generic,
     TypeVar,
 )
-from fastapi import (
-    HTTPException,
-    status,
-    Query,
-)
+from fastapi import Query
 from pydantic import BaseModel
 
 from src.exceptions.pagination import PageNotFoundException
