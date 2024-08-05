@@ -4,7 +4,7 @@ from src.api.v1.bookings import router as bookings_router
 from src.api.v1.books import router as books_router
 from src.api.v1.genres import router as genres_router
 from src.api.v1.users import router as users_router
-from src.utils.constants import API_V1_PREFIX
+from src.config.config import settings
 
 routers = (
     bookings_router,
@@ -13,7 +13,7 @@ routers = (
     genres_router,
 )
 
-router_v1 = APIRouter(prefix=API_V1_PREFIX)
+router_v1 = APIRouter(prefix=settings.api_v1_prefix)
 
 for router in routers:
     router_v1.include_router(router)

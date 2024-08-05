@@ -18,9 +18,16 @@ class RedisSettings(BaseModel):
     PORT: int = os.getenv("REDIS_PORT")
 
 
+class UsersSettings(BaseModel):
+    AVATAR_PATH: str = "src/static/users_avatars/"
+
+
 class Settings(BaseSettings):
     db: DatabaseSettings = DatabaseSettings()
     redis: RedisSettings = RedisSettings()
+    user: UsersSettings = UsersSettings()
+
+    api_v1_prefix: str = "/v1"
 
 
 settings = Settings()

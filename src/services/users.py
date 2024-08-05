@@ -13,7 +13,7 @@ from src.schemas.users import (
     UserInitialsSchema,
     UserSchema,
 )
-from src.utils.constants import USER_AVATAR_PATH
+from src.config.config import settings
 from src.utils.transaction import BaseManager
 
 
@@ -137,7 +137,7 @@ class UsersService:
             raise NoResultFound
 
         avatar_filename = f"{user_id}.jpg"
-        avatar_path = USER_AVATAR_PATH + avatar_filename
+        avatar_path = settings.user.AVATAR_PATH + avatar_filename
         with open(avatar_path, "wb") as buffer:
             buffer.write(await user_avatar.read())
 
