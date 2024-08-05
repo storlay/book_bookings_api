@@ -6,15 +6,14 @@ from sqlalchemy import (
     pool,
 )
 
-from src.db.database import (
-    Base,
-    DATABASE_URL,
-)
+from src.config.config import settings
+from src.db.database import Base
+
 
 config = context.config
 config.set_main_option(
     "sqlalchemy.url",
-    f"{DATABASE_URL}?async_fallback=True",
+    f"{settings.db.URL}?async_fallback=True",
 )
 
 if config.config_file_name is not None:
