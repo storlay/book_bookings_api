@@ -1,6 +1,6 @@
 from fastapi import status
 
-from src.utils.exception import CatalogException
+from src.exceptions.base import CatalogException
 
 
 class AvatarFileWasNotFoundException(CatalogException):
