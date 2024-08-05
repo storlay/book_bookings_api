@@ -1,6 +1,15 @@
-from fastapi import APIRouter, status
+from fastapi import (
+    APIRouter,
+    Depends,
+    status,
+)
 
 from src.api.dependencies import TransactionDep
+from src.api.pagination import (
+    BasePaginationResponse,
+    PaginationParams,
+    Paginator,
+)
 from src.schemas.genres import (
     AddGenreSchema,
     GenreIdSchema,
@@ -21,15 +30,22 @@ router = APIRouter(
 )
 async def get_all_genres(
     transaction: TransactionDep,
-) -> list[GenreSchema]:
+    pagination: PaginationParams = Depends(PaginationParams),
+) -> BasePaginationResponse[GenreSchema]:
     """
     Getting all genres.
     :param transaction: Database transaction.
+    :param pagination: Pagination params.
     :return: List of Pydantic models representing the genre.
     """
-    return await GenresService.get_all_genres(
+    list_genres = await GenresService.get_all_genres(
         transaction,
     )
+    paginator = Paginator(
+        pages=list_genres,
+        params=pagination,
+    )
+    return paginator.get_response()
 
 
 @router.get(

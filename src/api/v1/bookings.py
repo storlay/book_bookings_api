@@ -2,11 +2,17 @@ from typing import Annotated
 
 from fastapi import (
     APIRouter,
+    Depends,
     Path,
     status,
 )
 
 from src.api.dependencies import TransactionDep
+from src.api.pagination import (
+    BasePaginationResponse,
+    PaginationParams,
+    Paginator,
+)
 from src.schemas.bookings import (
     AddBookingSchema,
     BookingIdSchema,
@@ -27,15 +33,22 @@ router = APIRouter(
 )
 async def get_all_bookings(
     transaction: TransactionDep,
-) -> list[BookingSchema]:
+    pagination: PaginationParams = Depends(PaginationParams),
+) -> BasePaginationResponse[BookingSchema]:
     """
     Getting all bookings.
     :param transaction: Database transaction.
+    :param pagination: Pagination params.
     :return: List of Pydantic models representing the bookings.
     """
-    return await BookingsService.get_all_bookings(
+    list_bookings = await BookingsService.get_all_bookings(
         transaction,
     )
+    paginator = Paginator(
+        pages=list_bookings,
+        params=pagination,
+    )
+    return paginator.get_response()
 
 
 @router.get(

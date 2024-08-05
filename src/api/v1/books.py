@@ -1,10 +1,16 @@
 from fastapi import (
     APIRouter,
+    Depends,
     Query,
     status,
 )
 
 from src.api.dependencies import TransactionDep
+from src.api.pagination import (
+    BasePaginationResponse,
+    PaginationParams,
+    Paginator,
+)
 from src.schemas.books import (
     AddBookSchema,
     BookIdSchema,
@@ -25,15 +31,22 @@ router = APIRouter(
 )
 async def get_all_books(
     transaction: TransactionDep,
-) -> list[BookSchema]:
+    pagination: PaginationParams = Depends(PaginationParams),
+) -> BasePaginationResponse[BookSchema]:
     """
     Getting all books.
     :param transaction: Database transaction.
+    :param pagination: Pagination params.
     :return: List of Pydantic models representing the book.
     """
-    return await BooksService.get_all_books(
+    list_books = await BooksService.get_all_books(
         transaction,
     )
+    paginator = Paginator(
+        pages=list_books,
+        params=pagination,
+    )
+    return paginator.get_response()
 
 
 @router.get(
@@ -42,15 +55,17 @@ async def get_all_books(
 )
 async def get_books_by_filters(
     transaction: TransactionDep,
+    pagination: PaginationParams = Depends(PaginationParams),
     author_name: str = Query(None),
     author_surname: str = Query(None),
     genres: list[str] = Query(None),
     min_price: float = Query(None, ge=0),
     max_price: float = Query(None, ge=0),
-) -> list[BookSchema]:
+) -> BasePaginationResponse[BookSchema]:
     """
     Getting a list books by filters.
     :param transaction: Database transaction.
+    :param pagination: Pagination params.
     :param author_name: Author's name.
     :param author_surname: Author's surname.
     :param genres: List of genres.
@@ -58,7 +73,7 @@ async def get_books_by_filters(
     :param max_price: Maximum price.
     :return: List of Pydantic models representing the book.
     """
-    return await BooksService.get_books_by_filters(
+    list_books = await BooksService.get_books_by_filters(
         transaction,
         author_name,
         author_surname,
@@ -66,6 +81,11 @@ async def get_books_by_filters(
         min_price,
         max_price,
     )
+    paginator = Paginator(
+        pages=list_books,
+        params=pagination,
+    )
+    return paginator.get_response()
 
 
 @router.get(

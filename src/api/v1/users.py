@@ -1,10 +1,16 @@
 from fastapi import (
     APIRouter,
-    UploadFile,
+    Depends,
     status,
+    UploadFile,
 )
 
 from src.api.dependencies import TransactionDep
+from src.api.pagination import (
+    BasePaginationResponse,
+    PaginationParams,
+    Paginator,
+)
 from src.schemas.users import (
     UserIdSchema,
     UserInitialsSchema,
@@ -24,15 +30,22 @@ router = APIRouter(
 )
 async def get_all_users(
     transaction: TransactionDep,
-) -> list[UserSchema]:
+    pagination: PaginationParams = Depends(PaginationParams),
+) -> BasePaginationResponse[UserSchema]:
     """
     Getting all users.
     :param transaction: Database transaction.
+    :param pagination: Pagination params.
     :return: List of Pydantic models representing the user.
     """
-    return await UsersService.get_all_users(
+    list_users = await UsersService.get_all_users(
         transaction,
     )
+    paginator = Paginator(
+        pages=list_users,
+        params=pagination,
+    )
+    return paginator.get_response()
 
 
 @router.get(
