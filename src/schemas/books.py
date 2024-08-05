@@ -1,6 +1,9 @@
 from typing import Annotated
 
-from pydantic import BaseModel, Field
+from pydantic import (
+    BaseModel,
+    Field,
+)
 
 from src.schemas.mixins.books import (
     NameMixin,
@@ -16,6 +19,13 @@ class BookSchema(
 ):
     id: int
     genres: list[str]
+
+
+class BookFiltersSchema(BaseModel):
+    author_name: Annotated[str | None, Field(None)]
+    author_surname: Annotated[str | None, Field(None)]
+    min_price: Annotated[float | None, Field(None, ge=0)]
+    max_price: Annotated[float | None, Field(None, ge=0)]
 
 
 class BookIdSchema(BaseModel):

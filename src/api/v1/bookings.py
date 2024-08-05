@@ -33,7 +33,7 @@ router = APIRouter(
 )
 async def get_all_bookings(
     transaction: TransactionDep,
-    pagination: PaginationParams = Depends(PaginationParams),
+    pagination: PaginationParams = Depends(),
 ) -> BasePaginationResponse[BookingSchema]:
     """
     Getting all bookings.
@@ -77,7 +77,7 @@ async def get_booking(
 )
 async def add_booking(
     transaction: TransactionDep,
-    booking_data: AddBookingSchema,
+    booking_data: AddBookingSchema = Depends(),
 ) -> BookingIdSchema:
     """
     Adding a new booking.
@@ -98,7 +98,7 @@ async def add_booking(
 async def update_booking(
     transaction: TransactionDep,
     booking_id: Annotated[int, Path(ge=1)],
-    booking_data: UpdateBookingSchema,
+    booking_data: UpdateBookingSchema = Depends(),
 ) -> BookingIdSchema:
     """
     Updating a booking by ID.

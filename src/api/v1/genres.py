@@ -1,6 +1,9 @@
+from typing import Annotated
+
 from fastapi import (
     APIRouter,
     Depends,
+    Path,
     status,
 )
 
@@ -30,7 +33,7 @@ router = APIRouter(
 )
 async def get_all_genres(
     transaction: TransactionDep,
-    pagination: PaginationParams = Depends(PaginationParams),
+    pagination: PaginationParams = Depends(),
 ) -> BasePaginationResponse[GenreSchema]:
     """
     Getting all genres.
@@ -54,7 +57,7 @@ async def get_all_genres(
 )
 async def get_genre(
     transaction: TransactionDep,
-    genre_id: int,
+    genre_id: Annotated[int, Path(ge=1)],
 ) -> GenreSchema:
     """
     Getting a genre by ID.
@@ -74,7 +77,7 @@ async def get_genre(
 )
 async def add_genre(
     transaction: TransactionDep,
-    genre_data: AddGenreSchema,
+    genre_data: AddGenreSchema = Depends(),
 ) -> GenreIdSchema:
     """
     Adding a new genre.
@@ -94,8 +97,8 @@ async def add_genre(
 )
 async def update_genre(
     transaction: TransactionDep,
-    genre_id: int,
-    genre_data: UpdateGenreSchema,
+    genre_id: Annotated[int, Path(ge=1)],
+    genre_data: UpdateGenreSchema = Depends(),
 ) -> GenreIdSchema:
     """
     Updating a genre by ID.
@@ -117,7 +120,7 @@ async def update_genre(
 )
 async def delete_genre(
     transaction: TransactionDep,
-    genre_id: int,
+    genre_id: Annotated[int, Path(ge=1)],
 ) -> None:
     """
     Deleting a genre by ID.

@@ -1,6 +1,9 @@
+from typing import Annotated
+
 from fastapi import (
     APIRouter,
     Depends,
+    Path,
     status,
     UploadFile,
 )
@@ -30,7 +33,7 @@ router = APIRouter(
 )
 async def get_all_users(
     transaction: TransactionDep,
-    pagination: PaginationParams = Depends(PaginationParams),
+    pagination: PaginationParams = Depends(),
 ) -> BasePaginationResponse[UserSchema]:
     """
     Getting all users.
@@ -54,7 +57,7 @@ async def get_all_users(
 )
 async def get_user(
     transaction: TransactionDep,
-    user_id: int,
+    user_id: Annotated[int, Path(ge=1)],
 ) -> UserSchema:
     """
     Getting a user by ID.
@@ -74,7 +77,7 @@ async def get_user(
 )
 async def add_user(
     transaction: TransactionDep,
-    user_data: UserInitialsSchema,
+    user_data: UserInitialsSchema = Depends(),
 ) -> UserIdSchema:
     """
     Adding a new user.
@@ -94,8 +97,8 @@ async def add_user(
 )
 async def update_user_initials(
     transaction: TransactionDep,
-    user_id: int,
-    fields: UserInitialsSchema,
+    user_id: Annotated[int, Path(ge=1)],
+    fields: UserInitialsSchema = Depends(),
 ) -> UserIdSchema:
     """
     Updating a user initials by ID.
@@ -117,7 +120,7 @@ async def update_user_initials(
 )
 async def delete_user(
     transaction: TransactionDep,
-    user_id: int,
+    user_id: Annotated[int, Path(ge=1)],
 ) -> None:
     """
     Deleting a user by ID.
@@ -137,7 +140,7 @@ async def delete_user(
 )
 async def upload_avatar(
     transaction: TransactionDep,
-    user_id: int,
+    user_id: Annotated[int, Path(ge=1)],
     user_avatar: UploadFile,
 ) -> UserIdSchema:
     """
@@ -160,7 +163,7 @@ async def upload_avatar(
 )
 async def delete_avatar(
     transaction: TransactionDep,
-    user_id: int,
+    user_id: Annotated[int, Path(ge=1)],
 ) -> None:
     """
     Deleting User avatar

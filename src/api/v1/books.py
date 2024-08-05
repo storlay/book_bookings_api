@@ -1,6 +1,9 @@
+from typing import Annotated
+
 from fastapi import (
     APIRouter,
     Depends,
+    Path,
     Query,
     status,
 )
@@ -14,6 +17,7 @@ from src.api.pagination import (
 from src.schemas.books import (
     AddBookSchema,
     BookIdSchema,
+    BookFiltersSchema,
     BookSchema,
     UpdateBookSchema,
 )
@@ -31,7 +35,7 @@ router = APIRouter(
 )
 async def get_all_books(
     transaction: TransactionDep,
-    pagination: PaginationParams = Depends(PaginationParams),
+    pagination: PaginationParams = Depends(),
 ) -> BasePaginationResponse[BookSchema]:
     """
     Getting all books.
@@ -55,31 +59,22 @@ async def get_all_books(
 )
 async def get_books_by_filters(
     transaction: TransactionDep,
-    pagination: PaginationParams = Depends(PaginationParams),
-    author_name: str = Query(None),
-    author_surname: str = Query(None),
-    genres: list[str] = Query(None),
-    min_price: float = Query(None, ge=0),
-    max_price: float = Query(None, ge=0),
+    pagination: PaginationParams = Depends(),
+    filters: BookFiltersSchema = Depends(),
+    genres: list[str] = Query(None)
 ) -> BasePaginationResponse[BookSchema]:
     """
     Getting a list books by filters.
     :param transaction: Database transaction.
     :param pagination: Pagination params.
-    :param author_name: Author's name.
-    :param author_surname: Author's surname.
+    :param filters: Pydantic model representing the search filters.
     :param genres: List of genres.
-    :param min_price: Minimum price.
-    :param max_price: Maximum price.
     :return: List of Pydantic models representing the book.
     """
     list_books = await BooksService.get_books_by_filters(
         transaction,
-        author_name,
-        author_surname,
+        filters,
         genres,
-        min_price,
-        max_price,
     )
     paginator = Paginator(
         pages=list_books,
@@ -94,7 +89,7 @@ async def get_books_by_filters(
 )
 async def get_book(
     transaction: TransactionDep,
-    book_id: int,
+    book_id: Annotated[int, Path(ge=1)],
 ) -> BookSchema:
     """
     Getting a book by ID.
@@ -114,7 +109,7 @@ async def get_book(
 )
 async def add_book(
     transaction: TransactionDep,
-    book_data: AddBookSchema,
+    book_data: AddBookSchema = Depends(),
     genres: list[str] = Query(None),
 ) -> BookIdSchema:
     """
@@ -137,9 +132,9 @@ async def add_book(
 )
 async def update_book(
     transaction: TransactionDep,
-    book_id: int,
-    book_data: UpdateBookSchema,
-    genres: list[str],
+    book_id: Annotated[int, Path(ge=1)],
+    genres: list[str] = Query(...),
+    book_data: UpdateBookSchema = Depends(),
 ) -> BookIdSchema:
     """
     Updating a book by ID.
@@ -163,7 +158,7 @@ async def update_book(
 )
 async def delete_book(
     transaction: TransactionDep,
-    book_id: int,
+    book_id: Annotated[int, Path(ge=1)],
 ) -> None:
     """
     Deleting a book by ID.

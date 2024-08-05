@@ -10,6 +10,7 @@ from src.exceptions.books import (
 from src.schemas.books import (
     AddBookSchema,
     BookIdSchema,
+    BookFiltersSchema,
     BookSchema,
     UpdateBookSchema,
 )
@@ -135,29 +136,23 @@ class BooksService:
     @staticmethod
     async def get_books_by_filters(
         transaction: BaseManager,
-        author_name: str | None,
-        author_surname: str | None,
+        filters: BookFiltersSchema,
         genres: list[str] | None,
-        min_price: float | None,
-        max_price: float | None,
     ) -> list[BookSchema | None]:
         """
         The logic of getting
         a list of books by filters.
         :param transaction: Database transaction.
-        :param author_name: Author's name.
-        :param author_surname: Author's surname.
+        :param filters: Pydantic model representing the search filters.
         :param genres: List of genres.
-        :param min_price: Minimum price.
-        :param max_price: Maximum price.
         :return: List of Pydantic models representing the book.
         """
         async with transaction:
             books = await transaction.books_repo.find_with_filters(
-                author_name,
-                author_surname,
+                filters.author_name,
+                filters.author_surname,
                 genres,
-                min_price,
-                max_price,
+                filters.min_price,
+                filters.max_price,
             )
             return books
