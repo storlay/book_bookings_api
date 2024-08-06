@@ -13,7 +13,7 @@ routers = (
     genres_router,
 )
 
-router_v1 = APIRouter(prefix=settings.api_v1_prefix)
+router_v1 = APIRouter(prefix=settings.api.V1_PREFIX)
 
 for router in routers:
     router_v1.include_router(router)

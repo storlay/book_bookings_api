@@ -4,6 +4,10 @@ from pydantic import BaseModel
 from pydantic_settings import BaseSettings
 
 
+class ApiSettings(BaseSettings):
+    V1_PREFIX: str = "/v1"
+
+
 class DatabaseSettings(BaseModel):
     USER: str = os.getenv("POSTGRES_USER")
     PASS: str = os.getenv("POSTGRES_PASSWORD")
@@ -23,11 +27,10 @@ class UsersSettings(BaseModel):
 
 
 class Settings(BaseSettings):
+    api: ApiSettings = ApiSettings()
     db: DatabaseSettings = DatabaseSettings()
     redis: RedisSettings = RedisSettings()
     user: UsersSettings = UsersSettings()
-
-    api_v1_prefix: str = "/v1"
 
 
 settings = Settings()
