@@ -83,7 +83,7 @@ async def get_booking(
 )
 async def add_booking(
     transaction: TransactionDep,
-    booking_data: AddBookingSchema = Depends(),
+    booking_data: AddBookingSchema,
 ) -> BookingIdSchema:
     """
     Adding a new booking.
@@ -106,7 +106,7 @@ async def add_booking(
 async def update_booking(
     transaction: TransactionDep,
     booking_id: Annotated[int, Path(ge=1)],
-    booking_data: UpdateBookingSchema = Depends(),
+    booking_data: UpdateBookingSchema,
 ) -> BookingIdSchema:
     """
     Updating a booking by ID.

@@ -117,7 +117,7 @@ async def get_book(
 )
 async def add_book(
     transaction: TransactionDep,
-    book_data: AddBookSchema = Depends(),
+    book_data: AddBookSchema,
     genres: list[str] = Query(None),
 ) -> BookIdSchema:
     """
@@ -143,8 +143,8 @@ async def add_book(
 async def update_book(
     transaction: TransactionDep,
     book_id: Annotated[int, Path(ge=1)],
+    book_data: UpdateBookSchema,
     genres: list[str] = Query(...),
-    book_data: UpdateBookSchema = Depends(),
 ) -> BookIdSchema:
     """
     Updating a book by ID.

@@ -83,7 +83,7 @@ async def get_user(
 )
 async def add_user(
     transaction: TransactionDep,
-    user_data: UserInitialsSchema = Depends(),
+    user_data: UserInitialsSchema,
 ) -> UserIdSchema:
     """
     Adding a new user.
@@ -106,7 +106,7 @@ async def add_user(
 async def update_user_initials(
     transaction: TransactionDep,
     user_id: Annotated[int, Path(ge=1)],
-    fields: UserInitialsSchema = Depends(),
+    fields: UserInitialsSchema,
 ) -> UserIdSchema:
     """
     Updating a user initials by ID.

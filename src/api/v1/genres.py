@@ -83,7 +83,7 @@ async def get_genre(
 )
 async def add_genre(
     transaction: TransactionDep,
-    genre_data: AddGenreSchema = Depends(),
+    genre_data: AddGenreSchema,
 ) -> GenreIdSchema:
     """
     Adding a new genre.
@@ -106,7 +106,7 @@ async def add_genre(
 async def update_genre(
     transaction: TransactionDep,
     genre_id: Annotated[int, Path(ge=1)],
-    genre_data: UpdateGenreSchema = Depends(),
+    genre_data: UpdateGenreSchema,
 ) -> GenreIdSchema:
     """
     Updating a genre by ID.
